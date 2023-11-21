@@ -136,4 +136,33 @@ function addComment(postId, comment) {
   }
 }
 
+function submitPost(event) {
+  event.preventDefault();
+  const caption = document.getElementById("postInput").value;
+  const imageInput = document.getElementById("imageInput");
+  const image = imageInput.files[0];
+
+  if (caption.trim() === "" || !image) return;
+
+  const imageURL = URL.createObjectURL(image);
+
+  const newPost = {
+    id: postsData.length + 1,
+    author: "You",
+    content: caption,
+    likes: 0,
+    comments: [],
+    image: imageURL,
+  };
+
+  postsData.unshift(newPost);
+  caption.textContent = "";
+  imageInput.value = "";
+  renderPosts();
+}
+
+// event listener to submit the post
+document.getElementById("postForm").addEventListener("submit", submitPost);
+
+// render all the posts
 renderPosts();
